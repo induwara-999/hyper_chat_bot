@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WhatsApp Bot QR</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <style>
+        body { font-family: sans-serif; text-align: center; margin-top: 50px; }
+        img { border: 1px solid #ccc; padding: 10px; }
+    </style>
+</head>
+<body>
+    <h1>BetaCloudX Bot Connection</h1>
+    <div id="status">Waiting for QR code...</div>
+    <br>
+    <img id="qrcode" src="" alt="Scan here" style="display:none;">
+    
+    <script>
+        const socket = io();
+        const img = document.getElementById('qrcode');
+        const status = document.getElementById('status');
+
+        socket.on('qr', (url) => {
+            img.src = url;
+            img.style.display = 'inline-block';
+            status.innerHTML = 'Scan the QR code below:';
+        });
+
+        socket.on('ready', (msg) => {
+            img.style.display = 'none';
+            status.innerHTML = '✅ Bot is Connected and Ready!';
+        });
+    </script>
+</body>
+</html>
